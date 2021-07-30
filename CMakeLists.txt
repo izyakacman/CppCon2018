@@ -43,8 +43,6 @@ source_group(TREE ${Boost_INCLUDE_DIRS}/boost/beast PREFIX beast FILES ${BEAST_F
 
 file(GLOB APP_FILES
   beast.hpp
-  http_session.cpp
-  http_session.hpp
   listener.cpp
   listener.hpp
   main.cpp

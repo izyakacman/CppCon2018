@@ -8,7 +8,8 @@
 //
 
 #include "listener.hpp"
-#include "http_session.hpp"
+//#include "http_session.hpp"
+#include "websocket_session.hpp"
 #include <iostream>
 
 listener::
@@ -89,7 +90,8 @@ on_accept(error_code ec)
         return fail(ec, "accept");
     else
         // Launch a new session for this connection
-        std::make_shared<http_session>(
+        //std::make_shared<http_session>(
+        std::make_shared<websocket_session>(
             std::move(socket_),
             state_)->run();
 

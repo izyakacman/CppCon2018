@@ -43,27 +43,11 @@ public:
 
     ~websocket_session();
 
-    template<class Body, class Allocator>
-    void
-    run(http::request<Body, http::basic_fields<Allocator>> req);
+    void run();
 
     // Send a message
     void
     send(std::shared_ptr<std::string const> const& ss);
 };
-
-template<class Body, class Allocator>
-void
-websocket_session::
-run(http::request<Body, http::basic_fields<Allocator>> req)
-{
-    // Accept the websocket handshake
-    ws_.async_accept(
-        req,
-        std::bind(
-            &websocket_session::on_accept,
-            shared_from_this(),
-            std::placeholders::_1));
-}
 
 #endif

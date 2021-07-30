@@ -9,6 +9,8 @@
 
 #include "websocket_session.hpp"
 
+#include <iostream>
+
 websocket_session::
 websocket_session(
     tcp::socket socket,
@@ -65,7 +67,7 @@ on_read(error_code ec, std::size_t)
     // Handle the error, if any
     if(ec)
         return fail(ec, "read");
-
+std::cout << " WS Read: "<< beast::buffers_to_string(buffer_.data()) << std::endl;
     // Send to all connections
     state_->send(beast::buffers_to_string(buffer_.data()));
 
@@ -123,4 +125,14 @@ on_write(error_code ec, std::size_t)
             {
                 sp->on_write(ec, bytes);
             });
+}
+
+void websocket_session::run()
+{
+    // Accept the websocket handshake
+    ws_.async_accept(
+        std::bind(
+            &websocket_session::on_accept,
+            shared_from_this(),
+            std::placeholders::_1));        
 }
